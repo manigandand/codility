@@ -7,14 +7,35 @@ import (
 	"sync"
 )
 
-// StackWithTwo interface
-type StackWithTwo interface {
-	pushFirst(i int)
-	popFirst() (last int)
-	pushSecond(i int)
-	popSecond() (last int)
-}
+/*
+In Golang, there are array and slice
+if the array with given size [10]int
+```
+var a [10]int
+fmt.Printf("len=%d cap=%d %v\n", len(a), cap(a), a)
+output: len=10 cap=10 [0 0 0 0 0 0 0 0 0 0]
+```
 
+So i am using slice here. Slices can be created with the built-in make function.
+Slice is dynamically-sized arrays.
+
+make takes three arguments. make(type, len, capacity).
+```
+var a = make([]int, 10) // length and capacity 10
+fmt.Printf("len=%d cap=%d %v\n", len(a), cap(a), a)
+output: len=10 cap=10 [0 0 0 0 0 0 0 0 0 0]
+```
+
+```
+var a = make([]int, 0, 10) // length is 0 and capacity is 10
+fmt.Printf("len=%d cap=%d %v\n", len(a), cap(a), a)
+output: len=0 cap=10 []
+```
+
+Since i am initializing slice of len(0), the memory of of the each stack
+will remain 24bytes. This will grow only the stack grows.
+
+*/
 func main() {
 	s := NewStackWithTwo(10000000)
 	s.pushFirst(1)
@@ -26,6 +47,14 @@ func main() {
 	fmt.Println(s.popSecond())
 	fmt.Println(s.popFirst())
 	fmt.Println(s.popFirst())
+}
+
+// StackWithTwo interface
+type StackWithTwo interface {
+	pushFirst(i int)
+	popFirst() (last int)
+	pushSecond(i int)
+	popSecond() (last int)
 }
 
 // Stack struct holds the stack properties
