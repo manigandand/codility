@@ -34,6 +34,39 @@ func (l *DList) Insert(val interface{}) {
 	l.tail = node
 }
 
+func (l *DList) Delete(val interface{}) {
+	if l.head == nil {
+		return
+	}
+
+	current := l.head
+
+	for current.next != nil {
+		if current.val == val && current.prev == nil {
+			l.head = current.next
+			current.next.prev = nil
+			return
+		}
+		// current is 2
+		// current.next is 3
+		if current.next.val == val {
+			// if delete last node
+			if current.next.next == nil {
+				current.next = nil
+				l.tail = current
+				return
+			}
+
+			// 2's next is 4 (3's next)
+			current.next.next.prev = current.next.prev
+			current.next = current.next.next
+			return
+		}
+
+		current = current.next
+	}
+}
+
 func (l *DList) Show() {
 	current := l.head
 
@@ -65,4 +98,20 @@ func main() {
 
 	l.Show()
 	l.RShow()
+	fmt.Println("------------------")
+
+	l.Delete(1)
+	l.Show()
+	l.RShow()
+	fmt.Println("------------------")
+
+	l.Delete(4)
+	l.Show()
+	l.RShow()
+	fmt.Println("------------------")
+
+	l.Delete(5)
+	l.Show()
+	l.RShow()
+	fmt.Println("------------------")
 }
